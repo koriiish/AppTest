@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol TabBarActivated {
-    func tabBarIsActivated(_ bool: Bool)
-}
-
 class TabController: UITabBarController {
     
 
@@ -18,7 +14,6 @@ class TabController: UITabBarController {
         super.viewDidLoad()
 
         self.setupTabs()
-        tabBarIsActivated(false)
 
         self.view.backgroundColor = .white
         self.tabBar.barTintColor = .gray
@@ -47,26 +42,10 @@ class TabController: UITabBarController {
         let nav = UINavigationController(rootViewController: vC)
         nav.tabBarItem.title = title
         nav.tabBarItem.image = image
-    //  nav.viewControllers.first?.navigationItem.title = title + " Controller"
-//        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
+      nav.viewControllers.first?.navigationItem.title = title + " Controller"
+        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
         return nav
     }
 }
 
-extension TabController: TabBarActivated {
-    
-    func tabBarIsActivated(_ bool: Bool) {
-        var allButtonsPressed = bool {
-            didSet {
-                if let items = tabBarController?.tabBar.items {
-                    items[0].isEnabled = allButtonsPressed
-                    items[1].isEnabled = allButtonsPressed
-                    items[2].isEnabled = allButtonsPressed
-                    items[3].isEnabled = allButtonsPressed
-                    items[4].isEnabled = allButtonsPressed
-                }
-            }
-        }
-      //  allButtonsPressed = bool
-    }
-}
+

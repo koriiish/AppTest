@@ -1,0 +1,6 @@
+framework module Pods_JobSearchApp {
+  umbrella header "Pods-JobSearchApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         setupEnterLabel()
-        tabBarIsActivated(true)
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         view.addSubview(customJobSearchView)
         view.addSubview(customEmployeeSearchView)
@@ -56,7 +56,8 @@ class ViewController: UIViewController {
             searchController.modalPresentationStyle = .fullScreen
             present(searchController, animated: true)
             
-           // tabBarIsActivated(true)
+            self.tabBarController?.tabBar.isUserInteractionEnabled = true
+            
         }
     }
     
@@ -98,40 +99,12 @@ class ViewController: UIViewController {
         view.addSubview(enterLabel)
     }
     
-//    func tabBarIsActivated(_ bool: Bool) {
-//        var allButtonsPressed = false {
-//            didSet {
-//                if let items = tabBarController?.tabBar.items {
-//                    items[0].isEnabled = allButtonsPressed
-//                    items[1].isEnabled = allButtonsPressed
-//                    items[2].isEnabled = allButtonsPressed
-//                    items[3].isEnabled = allButtonsPressed
-//                    items[4].isEnabled = allButtonsPressed
-//                }
-//            }
-//        }
-//        allButtonsPressed = bool
-//    }
-    
 }
-//MARK: - VerifyProtocol,TabBarActivated
+//MARK: - VerifyProtocol
 
-extension ViewController: VerifyProtocol, TabBarActivated {
-    func tabBarIsActivated(_ bool: Bool) {
-        var allButtonsPressed = bool {
-            didSet {
-                if let items = tabBarController?.tabBar.items {
-                    items[0].isEnabled = allButtonsPressed
-                    items[1].isEnabled = allButtonsPressed
-                    items[2].isEnabled = allButtonsPressed
-                    items[3].isEnabled = allButtonsPressed
-                    items[4].isEnabled = allButtonsPressed
-                }
-            }
-        }
-       // allButtonsPressed = bool
-    }
+extension ViewController: VerifyProtocol {
     func verify() {
         verifyButtonTapped()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
     }
 }
