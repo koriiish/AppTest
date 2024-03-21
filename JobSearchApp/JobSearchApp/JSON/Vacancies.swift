@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct Vacancies: Codable {
+struct Vacancies: Hashable, Decodable {
     
     let lookingNumber: Int
     let title: String

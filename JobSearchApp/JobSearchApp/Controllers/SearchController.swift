@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SearchController: UIViewController {
     
@@ -13,6 +14,7 @@ class SearchController: UIViewController {
     let sharedSession = URLSession.shared
     let url = URL(string: "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14")!
     var vacancies: [Vacancies] = []
+   // var vacancies: [String: Any] = [:]
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -25,7 +27,8 @@ class SearchController: UIViewController {
         self.tabBarController?.tabBar.isUserInteractionEnabled = true
         setupTableView()
         makeDataTask()
-        getRequest()
+        getUsers()
+      //  getRequest()
     }
     
     private func setupTableView() {
@@ -44,19 +47,35 @@ class SearchController: UIViewController {
         tableView.reloadData()
     }
     
-    func getRequest() {
-        NetworkManager.performGetRequest(url: url) { [weak self] result in
-            switch result {
-            case .success(let vacancies):
-                self?.vacancies = vacancies
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                print("Error: \(error.localizedDescription)")
-            }
-        }
-    }
+//    func getRequest() {
+//        NetworkManager.performGetRequest(url: url) { [weak self] result in
+//            switch result {
+//            case .success(let vacancies):
+//                self?.vacancies = vacancies
+//                DispatchQueue.main.async {
+//                    self?.tableView.reloadData()
+//                }
+//            case .failure(let error):
+//                print("Error: \(error.localizedDescription)")
+//            }
+//        }
+//    }
+    
+    private func getUsers() {
+        AF.request(url).responseDecodable(of: [Vacancies].self) { response in
+             switch response.result {
+             case .success(let vacancies):
+                 guard vacancies is [Vacancies] else { return }
+                // vacancies = json["vacancies"] as! [[String: Any]]
+                 self.vacancies = vacancies
+                     DispatchQueue.main.async {
+                         self.tableView.reloadData()
+                     }
+             case .failure(let error):
+                 print("Error: \(error.localizedDescription)")
+             }
+         }
+     }
     
     func makeDataTask() {
         let dataTask = sharedSession.dataTask(with: URLRequest(url: url), completionHandler: { [weak self] data,_,_ in
